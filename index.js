@@ -1,12 +1,14 @@
 const http = require('http');
 
-const PORT = process.env.PORT || 3000;
-
 const server = http.createServer((req, res) => {
-  res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
-  res.end('Hola Fábrica de Startups\n');
+  if (req.url === '/health') {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    return res.end(JSON.stringify({ status: 'ok', uptime: process.uptime() }));
+  }
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('Hello from Jarvis Startup Demo!\n');
 });
 
-server.listen(PORT, () => {
-  console.log(`Servidor escuchando en http://localhost:${PORT}`);
+server.listen(3000, () => {
+  console.log('Server running on port 3000');
 });
